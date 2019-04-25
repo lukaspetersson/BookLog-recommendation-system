@@ -33,3 +33,17 @@ from sklearn.manifold import TSNE
 tsne = TSNE(n_components=2, verbose=1, perplexity=40, n_iter=300)
 tnse_results = tsne.fit_transform(book_em_weights)
 sns.scatterplot(x=tnse_results[:,0], y=tnse_results[:,1])
+
+# Creating dataset for making recommendations for the first user
+book_data = np.array(list(set(dataset.book_id)))
+user = np.array([1 for i in range(len(book_data))])
+predictions = model.predict([user, book_data])
+predictions = np.array([a[0] for a in predictions])
+recommended_book_ids = (-predictions).argsort()[:5]
+print(recommended_book_ids)
+print(predictions[recommended_book_ids])
+
+books = pd.read_csv(‘books.csv’)
+books.head()
+
+print(books[books[‘id’].isin(recommended_book_ids)])
