@@ -15,3 +15,6 @@ user_vec = Flatten(name="Flatten-Users")(user_embedding)
 prod = Dot(name="Dot-Product", axes=1)([book_vec, user_vec])
 model = Model([user_input, book_input], prod)
 model.compile('adam', 'mean_squared_error')
+
+history = model.fit([train.user_id, train.book_id], train.rating, epochs=10, verbose=1)
+model.save('regression_model.h5')
