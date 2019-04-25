@@ -18,3 +18,18 @@ model.compile('adam', 'mean_squared_error')
 
 history = model.fit([train.user_id, train.book_id], train.rating, epochs=10, verbose=1)
 model.save('regression_model.h5')
+
+# Extract embeddings
+book_em = model.get_layer('Book-Embedding')
+book_em_weights = book_em.get_weights()[0]
+
+from sklearn.decomposition import PCA
+import seaborn as sns
+pca = PCA(n_components=2)
+pca_result = pca.fit_transform(book_em_weights)
+sns.scatterplot(x=pca_result[:,0], y=pca_result[:,1])
+
+from sklearn.manifold import TSNE
+tsne = TSNE(n_components=2, verbose=1, perplexity=40, n_iter=300)
+tnse_results = tsne.fit_transform(book_em_weights)
+sns.scatterplot(x=tnse_results[:,0], y=tnse_results[:,1])
