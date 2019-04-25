@@ -1,5 +1,5 @@
-import pandas as pd 
-dataset = pd.read_csv('ratings.csv')
+import pandas as pd
+dataset = pd.read_csv('dataset/ratings.csv')
 train, test = train_test_split(dataset, test_size=0.2, random_state=42)
 n_users = len(dataset.user_id.unique())
 n_books = len(dataset.book_id.unique())
@@ -44,7 +44,7 @@ recommended_book_ids = (-predictions).argsort()[:5]
 print(recommended_book_ids)
 print(predictions[recommended_book_ids])
 
-books = pd.read_csv("books.csv")
+books = pd.read_csv("dataset/books.csv")
 books.head()
 
 print(books[books["id"].isin(recommended_book_ids)])
