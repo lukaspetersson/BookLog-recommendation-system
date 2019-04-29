@@ -51,6 +51,24 @@ print("LOG: Making Recommendations")
 import numpy as np
 book_data = np.array(list(set(dataset.book_id)))
 user = np.array([1 for i in range(len(book_data))])
+
+#create list of read books
+books_read = [2,18,21,23,24]
+books = pd.read_csv("books.csv")
+books.head()
+#print(books[books["id"].isin(books_read)])
+
+a = []
+
+for i in range(len(book_data)):
+  if i in books_read:
+    a.append(5)
+  else:
+    a.append(0)
+print(a)
+
+a = np.array(a)
+
 predictions = model.predict([user, book_data])
 predictions = np.array([a[0] for a in predictions])
 recommended_book_ids = (-predictions).argsort()[:5]
@@ -62,6 +80,9 @@ print(predictions[recommended_book_ids])
 books = pd.read_csv("dataset/books.csv")
 books.head()
 
+#print(books["id"].isin(recommended_book_ids))
 print(books[books["id"].isin(recommended_book_ids)])
+#print(books[books["id"].isin([1,2,4])])
+#print(books[np.array([True for i in range(len(book_data))])])
 
 print("LOG: final")
