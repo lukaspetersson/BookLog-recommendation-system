@@ -50,9 +50,8 @@ print("LOG: Making Recommendations")
 # Creating dataset for making recommendations for the first user
 import numpy as np
 book_data = np.array(list(set(dataset.book_id)))
-user = np.array([1 for i in range(len(book_data))])
+user = np.array([0 for i in range(len(book_data))])
 
-#create list of read books
 books_read = [2,18,21,23,24]
 books = pd.read_csv("books.csv")
 books.head()
@@ -69,9 +68,9 @@ print(a)
 
 a = np.array(a)
 
-predictions = model.predict([user, book_data])
+predictions = model.predict([a, book_data])
 predictions = np.array([a[0] for a in predictions])
-recommended_book_ids = (-predictions).argsort()[:5]
+recommended_book_ids = (-predictions).argsort()[len(books_read):len(books_read)+5]
 
 print("LOG: Print Recommendations")
 print(recommended_book_ids)
