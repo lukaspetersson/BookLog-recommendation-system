@@ -16,34 +16,39 @@ user_input = Input(shape=[1], name="User-Input")
 user_embedding = Embedding(n_users+1, 5, name="User-Embedding")(user_input)
 user_vec = Flatten(name="Flatten-Users")(user_embedding)
 prod = Dot(name="Dot-Product", axes=1)([book_vec, user_vec])
-#model = Model([user_input, book_input], prod)
-#model.compile('adam', 'mean_squared_error')
 
-##Training the model
-#print("LOG: Training the model")
-#history = model.fit([train.user_id, train.book_id], train.rating, epochs=10, verbose=1)
-#model.save('regression_model.h5')
 
-##Restoring Existing Model
-print("LOG: Restoring existing model")
-model = load_model("regression_model.h5")
+if os.path.exists('regression_model.h5'):
+    #Restoring Existing Model
+    print("LOG: Restoring existing model")
+    model = load_model("regression_model.h5")
+else:
+    model = Model([user_input, book_input], prod)
+    model.compile('adam', 'mean_squared_error')
 
-#Visualizing embeddings
-print("LOG: Visualizing embeddings")
-# Extract embeddings
-book_em = model.get_layer('Book-Embedding')
-book_em_weights = book_em.get_weights()[0]
+    #Training the model
+    print("LOG: Training the model")
+    history = model.fit([train.user_id, train.book_id], train.rating, epochs=10, verbose=1)
+    model.save('regression_model.h5')
 
-from sklearn.decomposition import PCA
-import seaborn as sns
-pca = PCA(n_components=2)
-pca_result = pca.fit_transform(book_em_weights)
-sns.scatterplot(x=pca_result[:,0], y=pca_result[:,1])
 
-from sklearn.manifold import TSNE
-tsne = TSNE(n_components=2, verbose=1, perplexity=40, n_iter=300)
-tnse_results = tsne.fit_transform(book_em_weights)
-sns.scatterplot(x=tnse_results[:,0], y=tnse_results[:,1])
+
+# #Visualizing embeddings
+# print("LOG: Visualizing embeddings")
+# # Extract embeddings
+# book_em = model.get_layer('Book-Embedding')
+# book_em_weights = book_em.get_weights()[0]
+#
+# from sklearn.decomposition import PCA
+# import seaborn as sns
+# pca = PCA(n_components=2)
+# pca_result = pca.fit_transform(book_em_weights)
+# sns.scatterplot(x=pca_result[:,0], y=pca_result[:,1])
+#
+# from sklearn.manifold import TSNE
+# tsne = TSNE(n_components=2, verbose=1, perplexity=40, n_iter=300)
+# tnse_results = tsne.fit_transform(book_em_weights)
+# sns.scatterplot(x=tnse_results[:,0], y=tnse_results[:,1])
 
 #Making Recommendations
 print("LOG: Making Recommendations")
