@@ -10,7 +10,6 @@ from sklearn.model_selection import train_test_split
 
 
 warnings.filterwarnings('ignore')
-%matplotlib inline
 
 dataset = pd.read_csv('dataset/ratings.csv')
 
@@ -39,16 +38,15 @@ model.compile('adam', 'mean_squared_error')
 if os.path.exists('regression_model_test.h5'):
     model = load_model('regression_model_test.h5')
 else:
+    print("LOG: Training the model")
     history = model.fit([train.user_id, train.book_id], train.rating, epochs=5, verbose=1)
     model.save('regression_model_test.h5')
-    plt.plot(history.history['loss'])
-    plt.xlabel("Epochs")
-    plt.ylabel("Training Error")
+
 
 model.evaluate([test.user_id, test.book_id], test.rating)
 
 predictions = model.predict([test.user_id.head(10), test.book_id.head(10)])
-print(predictions[i], test.rating.iloc[i]) for i in range(0,10)
+#print(predictions[i], test.rating.iloc[i]) for i in range(0,10)
 
 
 ###Creating Neural Network
@@ -80,16 +78,14 @@ from keras.models import load_model
 if os.path.exists('regression_model2_test.h5'):
     model2 = load_model('regression_model2_test.h5')
 else:
+    print("LOG: Training the model")
     history = model2.fit([train.user_id, train.book_id], train.rating, epochs=5, verbose=1)
     model2.save('regression_model2_test.h5')
-    plt.plot(history.history['loss'])
-    plt.xlabel("Epochs")
-    plt.ylabel("Training Error")
 
 model2.evaluate([test.user_id, test.book_id], test.rating)
 
 predictions = model2.predict([test.user_id.head(10), test.book_id.head(10)])
-print(predictions[i], test.rating.iloc[i]) for i in range(0,10)
+#print(predictions[i], test.rating.iloc[i]) for i in range(0,10)
 
 
 ###Making Recommendations
