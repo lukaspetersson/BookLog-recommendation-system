@@ -36,11 +36,11 @@ prod = Dot(name="Dot-Product", axes=1)([book_vec, user_vec])
 model = Model([user_input, book_input], prod)
 model.compile('adam', 'mean_squared_error')
 
-if os.path.exists('regression_model.h5'):
-    model = load_model('regression_model.h5')
+if os.path.exists('regression_model_test.h5'):
+    model = load_model('regression_model_test.h5')
 else:
     history = model.fit([train.user_id, train.book_id], train.rating, epochs=5, verbose=1)
-    model.save('regression_model.h5')
+    model.save('regression_model_test.h5')
     plt.plot(history.history['loss'])
     plt.xlabel("Epochs")
     plt.ylabel("Training Error")
@@ -77,11 +77,11 @@ model2 = Model([user_input, book_input], out)
 
 from keras.models import load_model
 
-if os.path.exists('regression_model2.h5'):
-    model2 = load_model('regression_model2.h5')
+if os.path.exists('regression_model2_test.h5'):
+    model2 = load_model('regression_model2_test.h5')
 else:
     history = model2.fit([train.user_id, train.book_id], train.rating, epochs=5, verbose=1)
-    model2.save('regression_model2.h5')
+    model2.save('regression_model2_test.h5')
     plt.plot(history.history['loss'])
     plt.xlabel("Epochs")
     plt.ylabel("Training Error")
