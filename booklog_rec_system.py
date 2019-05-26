@@ -18,7 +18,8 @@ user_vec = Flatten(name="Flatten-Users")(user_embedding)
 prod = Dot(name="Dot-Product", axes=1)([book_vec, user_vec])
 
 
-if os.path.exists('regression_model.h5'):
+#if os.path.exists('regression_model.h5'):
+if 1==1:
     #Restoring Existing Model
     print("LOG: Restoring existing model")
     model = load_model("regression_model.h5")
@@ -75,7 +76,8 @@ user = np.array([1 for i in range(len(book_data))])
 
 predictions = model.predict([user, book_data])
 predictions = np.array([a[0] for a in predictions])
-recommended_book_ids = (-predictions).argsort()[len(books_read):len(books_read)+5]
+recommended_book_ids = (-predictions).argsort()[:5]
+#recommended_book_ids = (-predictions).argsort()[len(books_read):len(books_read)+5]
 
 print("LOG: Print Recommendations")
 print(recommended_book_ids)
