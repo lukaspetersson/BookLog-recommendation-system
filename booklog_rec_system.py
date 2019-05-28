@@ -55,7 +55,7 @@ print("LOG: Making Recommendations")
 # Creating dataset for making recommendations for the first user
 import numpy as np
 book_data = np.array(list(set(dataset.book_id)))
-user = np.array([1 for i in range(len(book_data))])
+user = np.array([53425 for i in range(len(book_data))])
 
 # books_read = [2,18,21,23,24]
 # books = pd.read_csv("books.csv")
