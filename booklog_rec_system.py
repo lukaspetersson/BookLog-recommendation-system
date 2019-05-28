@@ -17,9 +17,8 @@ user_embedding = Embedding(n_users+1, 5, name="User-Embedding")(user_input)
 user_vec = Flatten(name="Flatten-Users")(user_embedding)
 prod = Dot(name="Dot-Product", axes=1)([book_vec, user_vec])
 
-
-#if os.path.exists('regression_model.h5'):
-if 1==1:
+import os
+if os.path.exists('regression_model.h5'):
     #Restoring Existing Model
     print("LOG: Restoring existing model")
     model = load_model("regression_model.h5")
